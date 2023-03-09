@@ -6,13 +6,13 @@
 // Administrator of the National Aeronautics and Space Administration.
 // All Other Rights Reserved.
 
-// Licensed under the NASA Open Source License (the "License"); 
-// You may not use this file except in compliance with the License. 
+// Licensed under the NASA Open Source License (the "License");
+// You may not use this file except in compliance with the License.
 // You may obtain a copy of the License at:
 // https://opensource.org/licenses/NASA-1.3
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 // express or implied.   See the License for the specific language
 // governing permissions and limitations under the License.
 
@@ -20,7 +20,7 @@
 // Name        : EMTG_v9.cpp
 // Author      : Jacob Englander
 // Version     :
-// Copyright   : 
+// Copyright   :
 // Description : Main launch function for EMTG_v9
 // Description : EMTG_v9 is a generic optimizer that handles all mission types
 //============================================================================
@@ -47,7 +47,8 @@
 #include "atmosphere.h"
 #include "ExponentialAtmosphere.h"
 
-#include "boost/filesystem.hpp"
+// #include "boost/filesystem.hpp"
+#include <filesystem>
 #include "boost/filesystem/fstream.hpp"
 #include "boost/date_time.hpp"
 #include "boost/date_time/local_time/local_date_time.hpp"
@@ -64,7 +65,7 @@
 #include "SplineEphem_universe.h"
 #endif
 
-int main(int argc, char* argv[]) 
+int main(int argc, char* argv[])
 {
     std::cout << "program starting" << std::endl;
 
@@ -93,7 +94,8 @@ int main(int argc, char* argv[])
             if (options.override_working_directory)
                 root_directory = options.forced_working_directory;
             else
-                root_directory = boost::filesystem::current_path().string() + "/..//EMTG_v9_results//";
+				root_directory = std::filesystem::current_path().string() + "/..//EMTG_v9_results//";
+
 
             if (options.override_mission_subfolder)
                 mission_subfolder = options.forced_mission_subfolder;
@@ -111,8 +113,8 @@ int main(int argc, char* argv[])
             //create the working directory
             try
             {
-                boost::filesystem::path p(options.working_directory);
-                boost::filesystem::create_directories(p);
+                std::filesystem::path p(options.working_directory);
+                std::filesystem::create_directories(p);
             }
             catch (std::exception &e)
             {
@@ -130,15 +132,15 @@ int main(int argc, char* argv[])
 
 
         //load all ephemeris data if using SPICE
-        std::vector<::boost::filesystem::path> SPICE_files_initial;
-        std::vector<::boost::filesystem::path> SPICE_files_not_required;
-        std::vector<::boost::filesystem::path> SPICE_files_required;
+        std::vector<std::filesystem::path> SPICE_files_initial;
+        std::vector<std::filesystem::path> SPICE_files_not_required;
+        std::vector<std::filesystem::path> SPICE_files_required;
         std::vector<int> SPICE_bodies_required;
         std::string filestring;
         if (options.ephemeris_source >= 1)
         {
             //load all BSP files
-            EMTG::file_utilities::get_all_files_with_extension(::boost::filesystem::path(options.universe_folder + "/ephemeris_files/"), ".bsp", SPICE_files_initial);
+            EMTG::file_utilities::get_all_files_with_extension(std::filesystem::path(options.universe_folder + "/ephemeris_files/"), ".bsp", SPICE_files_initial);
 
             for (size_t k = 0; k < SPICE_files_initial.size(); ++k)
             {
@@ -205,7 +207,7 @@ int main(int argc, char* argv[])
 		{
 			try
 			{
-				if (options.Journeys[j].perturb_drag || 
+				if (options.Journeys[j].perturb_drag ||
                     (options.Journeys[j].phase_type == EMTG::PhaseType::ProbeEntryPhase && (options.Journeys[j].perturb_drag_probe_AEI_to_end || options.Journeys[j].perturb_drag_probe_separation_to_AEI))
                     )
 				{

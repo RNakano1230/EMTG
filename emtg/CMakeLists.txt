@@ -123,16 +123,16 @@ endif(HAS_BUILT_IN_THRUSTERS)
 
 if(SPLINE_EPHEM)
     add_definitions(-DSPLINE_EPHEM)
-	
+
 	# GNU Scientific Library
-    set(GSL_INCLUDE_DIRS ${GSL_PATH})    
+    set(GSL_INCLUDE_DIRS ${GSL_PATH})
     include_directories(${GSL_INCLUDE_DIRS})
-    
+
 	add_library(gsl STATIC IMPORTED)
 	add_library(gslcblas STATIC IMPORTED)
     if(MSVC)
 		set_property(TARGET gsl PROPERTY IMPORTED_LOCATION ${GSL_PATH}/${CMAKE_CFG_INTDIR}/gsl.lib)
-		set_property(TARGET gslcblas PROPERTY IMPORTED_LOCATION ${GSL_PATH}/${CMAKE_CFG_INTDIR}/gslcblas.lib)        
+		set_property(TARGET gslcblas PROPERTY IMPORTED_LOCATION ${GSL_PATH}/${CMAKE_CFG_INTDIR}/gslcblas.lib)
     else()
         set_property(TARGET gsl PROPERTY IMPORTED_LOCATION ${GSL_PATH}/${CMAKE_CFG_INTDIR}/libgsl.a)
 		set_property(TARGET gslcblas PROPERTY IMPORTED_LOCATION ${GSL_PATH}/${CMAKE_CFG_INTDIR}/libgslcblas.a)
@@ -168,9 +168,9 @@ if (NOT MSVC) #cspice doesn't label the file correctly when it is done; easier t
 		endif()
 	endif()
 else()
-	if(NOT EXISTS "${CSPICE_DIR}/lib/cspice.lib")	
+	if(NOT EXISTS "${CSPICE_DIR}/lib/cspice.lib")
 		message(FATAL_ERROR "CSpice not built properly for a Windows System.  Please run the cspice/makeall.bat from within the Visual Studio Command Line tools and then reconfigure cmake.")
-	endif()	
+	endif()
 endif()
 
 set(CSPICE_LIBRARY cspice)
@@ -184,35 +184,37 @@ message(STATUS "Now checking on SNOPT...")
 #assume newest version of SNOPT
 if (IS_DIRECTORY ${SNOPT_ROOT_DIR}/interfaces)
 	include_directories("${SNOPT_ROOT_DIR}/interfaces/include")
-	
+
 	set(SNOPT_INTERFACE_HEADERS ${SNOPT_ROOT_DIR}/interfaces/include/snoptProblem.hpp ${SNOPT_ROOT_DIR}/interfaces/include/snopt.h)
 	set(SNOPT_INTERFACE_SOURCE ${SNOPT_ROOT_DIR}/interfaces/src/snoptProblem.cpp)
-    
+
     if (MSVC AND SNOPT_MINGW_DLL)
-    
+
         set(SNOPT_LIBRARIES ${SNOPT_ROOT_DIR}/build/${CMAKE_CFG_INTDIR}/libsnopt.lib)
-        
+
         add_library(snopt_interface STATIC IMPORTED)
         set_property(TARGET snopt_interface PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/build/${CMAKE_CFG_INTDIR}/snopt_interface.lib")
         link_directories(${SNOPT_ROOT_DIR}/build/${CMAKE_CFG_INTDIR})
         set(SNOPT_LIBRARIES ${SNOPT_LIBRARIES} snopt_interface)
-    
+
     else()
-	
+
         #PULL IN SNOPT.  THIS ASSUMES SNOPT HAS ALREADY BEEN COMPILED AND IS IN A VERY SPECIFIC SPOT.
         if (NOT MSVC)
             add_library(snopt SHARED IMPORTED)
             add_library(snopt_cpp SHARED IMPORTED)
-            set_property(TARGET snopt PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/lib/.libs/libsnopt7.so")
-            set_property(TARGET snopt_cpp PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/lib/.libs/libsnopt7_cpp.so")
+            # set_property(TARGET snopt PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/lib/.libs/libsnopt7.so")
+            # set_property(TARGET snopt_cpp PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/lib/.libs/libsnopt7_cpp.so")
+			set_property(TARGET snopt PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/lib/.libs/libsnopt7.dylib")
+			set_property(TARGET snopt_cpp PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/lib/.libs/libsnopt7_cpp.dylib")
         else(NOT MSVC)
             add_library(snopt STATIC IMPORTED)
             set_property(TARGET snopt PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/lib/snopt.lib")
             set(EMTG_LIBRARIES ${EMTG_LIBRARIES} ifmodintr.lib)
             link_directories("${INTEL_FORTRAN_DIR}")
-            
+
         endif(NOT MSVC)
-        
+
 
         if (MSVC)
             link_directories("${PROJECT_SOURCE_DIR}/lib")
@@ -228,12 +230,12 @@ if (IS_DIRECTORY ${SNOPT_ROOT_DIR}/interfaces)
             target_link_libraries(snopt_interface gfortran)
             set(SNOPT_LIBRARIES snopt_interface snopt_cpp snopt)
         endif()
-        
+
         set_property(TARGET snopt_interface PROPERTY POSITION_INDEPENDENT_CODE ON)
-        
+
     endif()
 
-	
+
 #okay, do we have an older version of SNOPT?
 
 elseif(IS_DIRECTORY ${SNOPT_ROOT_DIR}/cppsrc)
@@ -241,13 +243,13 @@ elseif(IS_DIRECTORY ${SNOPT_ROOT_DIR}/cppsrc)
 	include_directories("${SNOPT_ROOT_DIR}/win32")
 	set(SNOPT_INTERFACE_HEADERS ${SNOPT_ROOT_DIR}/win32/f2c.h ${SNOPT_ROOT_DIR}/cppsrc/snoptProblem.hh ${SNOPT_ROOT_DIR}/cppsrc/snopt.hh ${SNOPT_ROOT_DIR}/cppsrc/snfilewrapper.hh)
 	set(SNOPT_INTERFACE_SOURCE ${SNOPT_ROOT_DIR}/cppsrc/snfilewrapper.c ${SNOPT_ROOT_DIR}/cppsrc/snoptProblem.cc)
-	
+
 	#PULL IN SNOPT.  THIS ASSUMES SNOPT HAS ALREADY BEEN COMPILED AND IS IN A VERY SPECIFIC SPOT.
 	add_library(f2c STATIC IMPORTED)
 	add_library(snopt_cpp STATIC IMPORTED)
 	add_library(snopt_c STATIC IMPORTED)
 	add_library(snoptsnprint STATIC IMPORTED)
-	
+
 	if (NOT MSVC)
 		set_property(TARGET f2c PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/lib/libf2c.a")
 		set_property(TARGET snopt_cpp PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/lib/libsnopt_cpp.a")
@@ -259,9 +261,9 @@ elseif(IS_DIRECTORY ${SNOPT_ROOT_DIR}/cppsrc)
 		set_property(TARGET snopt_c PROPERTY IMPORTED_LOCATION "${SNOPT_ROOT_DIR}/win32/snopt_csrc/Release/snopt.lib")
 		set(SNOPT_LIBRARIES snopt_c f2c)
 	endif(NOT MSVC)
-	
+
 	link_directories("${PROJECT_SOURCE_DIR}/lib")
-	
+
 	add_definitions(-DSNOPT72 "Use SNOPT 7.2-12 or older" ON)
 
 else(IS_DIRECTORY ${SNOPT_ROOT_DIR}/interfaces)
@@ -288,5 +290,3 @@ set(EMTG_LIBRARIES ${EMTG_LIBRARIES} ${Boost_LIBRARIES})
 
 #pull in EMTG itself
 add_subdirectory(src)
-
-
