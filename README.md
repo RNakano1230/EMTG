@@ -22,7 +22,7 @@ Install Boost if not already dont so (`brew install boost`)
     1. `export CXX=/path/to/g++-11` (for example, `export CXX=/opt/homebrew/Cellar/gcc@11/11.3.0/bin/g++-11`)
     2. `export CC=/path/to/gcc-11` (for example, `export CC=/opt/homebrew/Cellar/gcc@11/11.3.0/bin/gcc-11`)
     3. `export FC=/path/to/gfortran-11` (for example, `export FC=/opt/homebrew/Cellar/gcc@11/11.3.0/bin/gfortran-11`)
-4. Make sure shell is updated by either quitting and reopening or running `source ~/.bashrc' (or `source ~/.zshrc`)
+4. Make sure shell is updated by either quitting and reopening or running `source ~/.bashrc` (or `source ~/.zshrc`)
 
 ### Autoconf
 Install autoconf (`brew install autoconf`)
