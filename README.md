@@ -1,5 +1,5 @@
 # EMTG_153 Instructions
-The following instructions are for setting up NASA's EMTG on Mac. This repository is a forked version of the original EMTG repository and has been edited to ensure it works on Mac, assuming the rest is setup correctly as shown below. Changes that were made between this repository and the original repository may be viewed in the code itself, but details of the changes are also outlined at the end of this README.
+The following instructions are for setting up NASA's EMTG on Mac. This repository is a forked version of the original EMTG repository and has been edited to ensure it works on Mac, assuming the rest is setup correctly as shown below. Changes that were made between this repository and the original repository may be viewed in the code itself, but details of the changes are also outlined at the end of this README. Note that these instructions confirm to work on the new Mac M1/M2 processors, but might still work on Intel processors with little to no changes.
 
 ## Prerequisites
 Below are things that need to be done before EMTG can be built. It is recommended to use Homebrew to install most necessary software.
