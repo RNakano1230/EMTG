@@ -10,7 +10,7 @@ Below are things that need to be done before EMTG can be built.
 
 ## Steps Takent to Modify Original EMTG Repository
 
-1. Clone original EMTG repository (`https://github.com/nasa/EMTG`)
+1. Clone original EMTG repository (https://github.com/nasa/EMTG)
 2. Copy 'EMTG-Config-template.cmake' and rename as 'EMTG-Config.cmake'
 3. In 'EMTG-Config.cmake'
     1. Set 'CSPCICE_DIR' to wherever NASA’s SPICE toolkit has been downloaded (download to anywhere other than EMTG root)
