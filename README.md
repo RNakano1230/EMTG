@@ -96,3 +96,30 @@ _ Make sure NASA's CSIPCE (https://naif.jpl.nasa.gov/naif/toolkit.html) is built
     1. Comment out line 50
     2. Add `#include <filesystem>`
     3. Change all `boost::filesystem` to `std::filesystem` (use search and replace), remove all `::` from `::std::filesystem` where necessary 
+
+# Original nasa/EMTG README
+
+Welcome to EMTGv9 Open Source Release
+README.opensource file compiled by Jacob Englander 4-20-2020
+
+This package contains all of the code that NASA GSFC is releasing for the Evolutionary Mission Trajectory Generator, version 9. No third-party code is included in this release. You will need to download the third-party components yourself. This information is detailed in documents that may be found in the docs/build_system folder.
+
+In particular, you will need a license for SNOPT. This is not free. Many of you probably already have SNOPT, and the rest may have to purchase it. EMTGv9 is known to work with SNOPT 7.5 and 7.6. It probably also works with 7.7 but I can't verify this because I don't have a license for 7.7. Older versions *might* work.
+
+You will want to download SPICE ephemeris files for the bodies that you are visiting. I recommend downloading the full 3+ GB set from http://naif.jpl.nasa.gov/naif/ and placing it in your Universe/ephemeris_files folder
+
+Note that regardless of whether you download all of the various SPICE ephemerides for the solar system, you will need to download de430.bsp from https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de430.bsp and place it in your Universe/ephemeris_files folder. I could not supply this file because it is too large for Github.
+
+You must edit the EMTG-Config.cmake file as follows:
+
+1) Change the CSPICE_DIR to wherever you have placed your CSPICE package. CSPICE_DIR should point to the root CSPICE directory.
+
+2) Change the SNOPT_ROOT_DIR to be wherever you have placed the unzipped SNOPT folder.  From this directory, it will seek the traditional /lib and /interface folders (as appropriate to your SNOPT version, which should be auto detected).  Report any problems to the EMTG lead developers.
+	Example: This is currently usually a directory called "snopt7"
+
+3) Change the 'BOOST_ROOT' to the root of your boost installer.  This presupposes you have already built boost (run its bootstrapper)
+		3a) Optionally, if during the run phase of CMAKE boost is not being found, uncomment the next two lines and specifically specify the BOOST_INCLUDEDIR and BOOST_LIBRARYDIR.  The default options are traditional variants that are sometimes chosen by boost installers, but yours may vary.
+
+Once all the above is in place, open CMake, and point the source directory at the EMTG root directory.  Point the build directory to the directory of your choice (may be the same). Run configure, then Generate, as per the usual CMake Process. This will create either  makefile for Linux or a Visual Studio project for Windows, or an Xcode project for Mac.
+
+EMTGv9 is provided "as is" in its imperfect but very capable state. The US Government, NASA, and the developers cannot guarantee that the results you produce with EMTG are correct. EMTG is intended for use as a trade study tool and an initial guess generator for a flight navigation tool. We recommend that you use it in those contexts and only those contexts.
