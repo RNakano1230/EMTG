@@ -27,7 +27,7 @@ Install Boost if not already dont so (`brew install boost`)
 ### Autoconf
 Install autoconf (`brew install autoconf`)
 
-### SNOPT
+### SNOPT (version 7, may or may not work with other versions)
 1. Unzip the zip flolder containing SNOPT anywhere
 2. Go inside SNOPT root
 3. Run `./configure --with-cpp`
