@@ -18,30 +18,34 @@ Install CMake (`brew install cmake`)
 Install Boost if not already dont so (`brew install boost`)
 
 
-### GCC
-Install GCC (`brew install gcc`)
+### GCC version 11
+1. Install GCC version 11 (`brew install gcc@11`)
+2. In terminal shell profile (if using bash then `nano ~/.bashrc`, if using zshrc then `nano ~/.zshrc`), add pointers to gcc
+    1. `export CXX=/path/to/g++-11` (for example, `export CXX=/opt/homebrew/Cellar/gcc@11/11.3.0/bin/g++-11`)
+    2. `export CC=/path/to/gcc-11` (for example, `export CC=/opt/homebrew/Cellar/gcc@11/11.3.0/bin/gcc-11`)
+    3. `export FC=/path/to/gfortran-11` (for example, `export FC=/opt/homebrew/Cellar/gcc@11/11.3.0/bin/gfortran-11`)
+4. Make sure shell is updated by either quitting and reopening or running `source ~/.bashrc' (or `source ~/.zshrc`)
+
+
+### Autoconf
+Install autoconf (`brew install autoconf`)
 
 
 ### SNOPT
-1. Unzip snopt
-2. Go inside snopt
-3. Run “./configure --with-cpp”
-4. Run “make”
-5. Run “make install”
-6. Run “make check” and ensure no errors occur
-7. Inside /snopt7, run “git clone https://github.com/snopt/snopt-interface.git” and rename new folder to “interfaces”
-8. Go inside /interfaces
+1. Unzip the zip flolder containing SNOPT anywhere
+2. Go inside SNOPT root
+3. Run `./configure --with-cpp`
+4. Run `make` (warnings can be ignored)
+5. Run `make install`
+6. Run `make check` and ensure no errors occur
+7. Inside SNOPT root, run `git clone https://github.com/snopt/snopt-interface.git` and rename new folder (should be `/snopt-interface') to `/interfaces` (with `mv snopt-interface interfaces`)
+8. Go inside `/interfaces`
 9. Make sure autoconf is installed (homebrew)
-10. Run “autoconf” run autoupdate if needed then rerun “autoconf”
-11. Run “./configure --with-snopt=/path/to/snopt/lib”
-12. Make sure CXX version is set properly, e.g., “export CXX=/opt/homebrew/Cellar/gcc/12.2.0/bin/g++-12” in shell (higher than c++1)
-13. Run “make”
-14. Run “make install”
-15. Run “make examples”
-
-
-### Python
-Download version of python for EMTG with “env PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install 3.10.4”
+10. Run `autoconf`, run `autoupdate` if prompted then rerun `autoconf`
+11. Run `./configure --with-snopt=/path/to/your/snopt/lib` (for example, `./configure --with-snopt=/Users/nick/Documents/SNOPT/snopt7/lib`)
+13. Run `make` (ignore warnings)
+14. Run `make install`
+15. Run `make examples`
 
 
 ## Building EMTG_153
@@ -49,6 +53,10 @@ Download version of python for EMTG with “env PYTHON_CONFIGURE_OPTS="--enable-
 2. Go inside /build
 3. In terminal type “cmake ..”
 4. Then type “make”
+
+
+## Python
+Download version of python for EMTG with `env PYTHON_CONFIGURE_OPTS="--enable-framework` pyenv install 3.10.4”
 
 
 ## General notes that might help
