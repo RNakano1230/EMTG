@@ -62,6 +62,10 @@ Install autoconf (`brew install autoconf`)
 ## Python
 Standard procedures may be used for python installation and required packages (outlined in `/emtg/PyEMTG/README.txt`). We note that `wxpython` may require downloading a framework version of python. If using homebrew and pyenv workflow, then run `env PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install 3.10.4`
 
+It may be required to run PyEMTG.py with `pythonw` as opposed to just `python`. It may also be required to follow instructions on this url for using a framework version of python https://matplotlib.org/3.1.0/faq/osx_framework.html. 
+
+If an error occurs when trying to run simulations from the python GUI, then it may be required to make changes in the `PyEMTG_interface.py`. More specifically, check the function definition on line 357, `OnRun`.
+
 ## To Run EMTG Through Python GUI
 Again, follow instructions in `/emtg/PyEMTG/README.txt`:
 1. Install proper python dependencies
